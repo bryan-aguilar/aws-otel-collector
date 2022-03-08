@@ -24,3 +24,9 @@ jobs:
           else
             echo "::set-output name=ref::terraform"
           fi
+  test: 
+    runs-on: ubuntu-latest
+    needs: create-test-ref
+    steps:
+      - name: echo output
+        run: echo ${{ needs.create-test-ref.outputs.testRef}}
