@@ -10,6 +10,8 @@ jobs:
     outputs: 
       branchName: ${{ steps.branchName.outputs.testRef }}
     steps:
+      - name: echo ref
+        run: echo ${{ github.ref_name}}
       - name: Check out testing framework
         id: branchName
         if: ${{ github.ref_name == 'jobOutTest' }}
