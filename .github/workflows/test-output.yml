@@ -14,7 +14,7 @@ jobs:
         run: echo ${{ github.ref_name}}
       - name: Check out testing framework
         id: branchName
-        if: ${{ github.ref_name == 'jobOutTest' }}
+        if: ${{ github.ref_name == 'jobOutputTest' }}
         run: echo "::set-output name=testRef::wasSet"
   
   jobb:
