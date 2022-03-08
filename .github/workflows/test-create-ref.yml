@@ -1,0 +1,26 @@
+name: test-create-test-ref
+
+on:
+  push:
+    branches:
+      - main
+      - workflowRefTargetTest
+      - release/*
+
+
+jobs:
+  create-test-ref:
+    runs-on: ubuntu-latest
+    outputs:
+      testRef: ${{ steps.setRef.outputs.ref }}
+    steps:
+      - name: echo ref
+        run: echo ${{ github.ref_name }}
+      - name: Set testRef output
+        id: setRef
+        run: |
+          if [[ github.ref_name == release/* ]]; then \
+            echo "::set-output name=ref::${{github.ref_name}}"; \
+          else \
+            echo "::set-output name=ref::terraform"; \
+          fi
