@@ -29,6 +29,6 @@ jobs:
     needs: jobb
     steps:
       - name: echoJobAOutput
-        run: echo ${{ needs.jobC.outputs.branchName }}
+        run: echo ${{ needs.jobb.outputs.branchName }}
 
         
