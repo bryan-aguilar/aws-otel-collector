@@ -26,9 +26,9 @@ jobs:
 
   jobc:
     runs-on: ubuntu-latest
-    needs: jobb
+    needs: [joba,jobb]
     steps:
       - name: echoJobAOutput
-        run: echo ${{ needs.jobb.outputs.branchName }}
+        run: echo ${{ needs.joba.outputs.branchName }}
 
         
