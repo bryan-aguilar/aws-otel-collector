@@ -1,0 +1,96 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+
+name: C/I-batchtest
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: aws-otel-collector
+  PACKAGING_ROOT: build/packages
+  ECR_REPO: aws-otel-test/adot-collector-integration-test
+  TF_VAR_aws_access_key_id: ${{ secrets.INTEG_TEST_AWS_KEY_ID }}
+  TF_VAR_aws_secret_access_key: ${{ secrets.INTEG_TEST_AWS_KEY_SECRET }}
+  TF_VAR_aoc_vpc_name: aoc-vpc-large
+  TF_VAR_aoc_vpc_security_group: aoc-vpc-security-group-large
+  # TF_VAR_patch: 'true'
+  PKG_SIGN_PRIVATE_KEY_NAME: aoc-linux-pkg-signing-gpg-key
+  WIN_UNSIGNED_PKG_BUCKET: aoc-aws-signer-unsigned-artifact-src
+  WIN_SIGNED_PKG_BUCKET: aoc-aws-signer-signed-artifact-dest
+  WIN_UNSIGNED_PKG_FOLDER: OTelCollectorAuthenticode/AuthenticodeSigner-SHA256-RSA
+  WIN_SIGNED_PKG_FOLDER: OTelCollectorAuthenticode/AuthenticodeSigner-SHA256-RSA
+  SSM_PACKAGE_NAME: "testAWSDistroOTel-Collector"
+  US_EAST_2_AMP_ENDPOINT: "https://aps-workspaces.us-east-2.amazonaws.com/workspaces/ws-1de68e95-0680-42bb-8e55-67e7fd5d0861"
+  TESTING_FRAMEWORK_REPO: bryan-aguilar/aws-otel-test-framework
+  MAX_JOBS: 20
+
+
+
+concurrency:
+  group: ci-batchtest${{ github.ref_name }}
+
+jobs:
+  create-test-ref:
+    runs-on: ubuntu-latest
+    outputs:
+      testRef: ${{ steps.setRef.outputs.ref }}
+    steps:
+      - name: Set testRef output
+        id: setRef
+        run: |
+          echo "::set-output name=ref::batchTestGenerator"
+
+  get-testing-suites:
+    runs-on: ubuntu-latest
+    outputs:
+      test-case-batch-key: ${{ steps.set-batches.outputs.batch-keys }}
+      test-case-batch-value: ${{ steps.set-batches.output.batch-values }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.TESTING_FRAMEWORK_REPO }}
+          path: testing-framework
+          ref: ${{ needs.create-test-ref.outputs.testRef }}
+
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.17.7'
+
+        # getting the batches would look something like this
+        # max jobs could be read as env or passed in as arg depending
+        # on how tool is written. 
+      - name: Create test batch key values
+        id: set-batches
+        run: |
+          cd testing-framework/tools/batchtestgenerator
+          go build
+          ./batchtestgenerator github --testCaseFilePath=./testcases.json --include=ECS --maxBatch=${{ env.MAX_JOBS }}
+      - name: List testing suites
+        run: |
+          echo ${{ steps.set-batches.outputs.batch-keys }}
+          echo ${{ steps.set-batches.outputs.batch-values }}
+
+  run-batch-job:
+    runs-on: ubuntu-latest
+    needs: [get-testing-suites, create-test-ref]
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.get-testing-suites.outputs.test-case-batch-key) }}
+
+    steps:
+      - name: Echo batch name
+        id: echo-batch
+        run: |
+          echo "batch name: ${{ matrix.BatchKey }}"
