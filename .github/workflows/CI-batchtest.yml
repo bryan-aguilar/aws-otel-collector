@@ -36,6 +36,10 @@ env:
   MAX_JOBS: 30
 
 
+permissions:
+  id-token: write
+  contents: read
+
 
 concurrency:
   group: ci-batchtest${{ github.ref_name }}
@@ -101,7 +105,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
-          role-session-name: ${{ matrix.BatchKey }}
+          role-session-name: ${{ github.run_id }}-${{ matrix.BatchKey }}
           aws-region: us-west-2
       
       - name: Checkout
