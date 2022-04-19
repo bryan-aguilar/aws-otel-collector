@@ -51,8 +51,9 @@ jobs:
         run: |
           echo "::set-output name=ref::batchTestGenerator"
 
-  get-testing-suites:
+  get-testing-suites: 
     runs-on: ubuntu-latest
+    needs: [create-test-ref]
     outputs:
       test-case-batch-key: ${{ steps.set-batches.outputs.batch-keys }}
       test-case-batch-value: ${{ steps.set-batches.output.batch-values }}
