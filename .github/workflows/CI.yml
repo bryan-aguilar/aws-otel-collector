@@ -78,7 +78,7 @@ jobs:
           path: testing-framework
           ref: ${{ needs.create-test-ref.outputs.testRef }}
       - name: Set up Go 1.x
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: '~1.17.7'
       - name: Build aotutil
@@ -97,7 +97,7 @@ jobs:
     steps:
     # Set up building environment, patch the dev repo code on dispatch events.
     - name: Set up Go 1.x
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
         go-version: '~1.17.7'
 
@@ -167,7 +167,7 @@ jobs:
 
     # upload the binaries to artifact as well because cache@v2 hasn't support windows
     - name: Upload
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: binary_artifacts
         path: build
@@ -179,7 +179,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Download built artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: binary_artifacts
           path: build
@@ -235,7 +235,7 @@ jobs:
           Write-Output "Valid signature found from the package"
 
       - name: Upload the msi
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: msi_artifacts
           path: "${{ env.PACKAGING_ROOT }}"
@@ -386,7 +386,7 @@ jobs:
 
       - name: Download built artifacts
         if: steps.cached_ssm.outputs.cache-hit != 'true'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: msi_artifacts
           path: "${{ env.PACKAGING_ROOT }}"
@@ -433,7 +433,7 @@ jobs:
 
       - name: Download built artifacts
         if: steps.cached_packages.outputs.cache-hit != 'true'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: msi_artifacts
           path: "${{ env.PACKAGING_ROOT }}"
@@ -628,7 +628,7 @@ jobs:
 
       - name: Set up JDK 11
         if: steps.e2etest-ec2-1.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -708,7 +708,7 @@ jobs:
 
       - name: Set up JDK 11
         if: steps.e2etest-ec2-2.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -788,7 +788,7 @@ jobs:
 
       - name: Set up JDK 11
         if: steps.e2etest-ec2-3.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -868,7 +868,7 @@ jobs:
 
       - name: Set up JDK 11
         if: steps.e2etest-ecs.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -941,7 +941,7 @@ jobs:
 
       - name: Set up JDK 11
         if: steps.e2etest-eks.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -1003,7 +1003,7 @@ jobs:
 
       - name: Set up JDK 11
         if: steps.e2etest-eks-arm64.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -1066,7 +1066,7 @@ jobs:
 
       - name: Set up JDK 11
         if: steps.e2etest-eks-fargate.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -1142,7 +1142,7 @@ jobs:
 
       - name: Set up JDK 11
         if: steps.e2etest-eks-adot-operator.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
