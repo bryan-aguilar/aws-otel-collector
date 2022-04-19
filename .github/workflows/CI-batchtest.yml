@@ -96,9 +96,24 @@ jobs:
         id: echo-batch
         run: |
           echo "batch name: ${{ matrix.BatchKey }}"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
+          role-session-name: ${{ githun.run_id }}-${{matrix.BatchKey}}
+          aws-region: us-west-2
+      
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.TESTING_FRAMEWORK_REPO }}
+          path: testing-framework
+          ref: ${{ needs.create-test-ref.outputs.testRef }}
+
       - name: create test-case-batch file
         run: |
           jsonStr='${{ needs.get-testing-suites.outputs.test-case-batch-value }}'
           jsonStr=$(jq -r '.${{ matrix.BatchKey }}' <<< "${jsonStr}")
-          echo $jsonStr >> test-case-batch
-          cat test-case-batch
+          echo $jsonStr >> testing-framework/terraform/test-case-batch
+          cat testing-framework/terraform/test-case-batch
