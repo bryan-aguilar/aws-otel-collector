@@ -98,6 +98,5 @@ jobs:
           echo "batch name: ${{ matrix.BatchKey }}"
       - name: create test-case-batch file
         run: |
-          echo ${{ needs.get-testing-suites.outputs.test-case-batch-value }} >> batch-value-output.json
-          cat batch-value-output.json | jq -r '.${{ matrix.BatchKey }}' >> test-case-batch
+          echo ${{ fromJson(needs.get-testing-suites.outputs.test-case-batch-value) }} | jq -r '.${{ matrix.BatchKey }}' >> test-case-batch
           cat test-case-batch
