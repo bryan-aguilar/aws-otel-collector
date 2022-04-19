@@ -75,9 +75,9 @@ jobs:
       - name: Create test batch key values
         id: set-batches
         run: |
-          cd testing-framework/tools/batchtestgenerator
+          cd testing-framework/tools/batchTestGenerator
           go build
-          ./batchtestgenerator github --testCaseFilePath=./testcases.json --include=ECS --maxBatch=${{ env.MAX_JOBS }}
+          ./batchTestGenerator github --testCaseFilePath=./testcases.json --include=ECS --maxBatch=${{ env.MAX_JOBS }}
       - name: List testing suites
         run: |
           echo ${{ steps.set-batches.outputs.batch-keys }}
