@@ -20,8 +20,6 @@ env:
   IMAGE_NAME: aws-otel-collector
   PACKAGING_ROOT: build/packages
   ECR_REPO: aws-otel-test/adot-collector-integration-test
-  TF_VAR_aoc_vpc_name: aoc-vpc-large
-  TF_VAR_aoc_vpc_security_group: aoc-vpc-security-group-large
   TF_VAR_aoc_version: latest
   TF_VAR_cortex_instance_endpoint: "https://aps-workspaces.us-west-2.amazonaws.com/workspaces/ws-b50bd41b-b9e0-4211-9336-ff19ed9fd355"
   # TF_VAR_patch: 'true'
