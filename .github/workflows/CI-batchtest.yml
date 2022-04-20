@@ -34,6 +34,7 @@ env:
   US_EAST_2_AMP_ENDPOINT: "https://aps-workspaces.us-east-2.amazonaws.com/workspaces/ws-1de68e95-0680-42bb-8e55-67e7fd5d0861"
   TESTING_FRAMEWORK_REPO: bryan-aguilar/aws-otel-test-framework
   MAX_JOBS: 10
+  GITHB_RUN_ID: ${{ github.run_id }}
 
 
 permissions:
@@ -114,15 +115,7 @@ jobs:
           repository: ${{ env.TESTING_FRAMEWORK_REPO }}
           path: testing-framework
           ref: ${{ needs.create-test-ref.outputs.testRef }}
-      
-      - name: Cache cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            testing-framework/terraform/tmp/*
-          key: run-batch-job-${{ github.run_id }}-${{ matrix.BatchKey }}
-
-
+          
       - name: create test-case-batch file
         run: |
           jsonStr='${{ needs.get-testing-suites.outputs.test-case-batch-value }}'
