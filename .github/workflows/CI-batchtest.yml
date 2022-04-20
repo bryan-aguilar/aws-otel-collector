@@ -33,7 +33,7 @@ env:
   SSM_PACKAGE_NAME: "testAWSDistroOTel-Collector"
   US_EAST_2_AMP_ENDPOINT: "https://aps-workspaces.us-east-2.amazonaws.com/workspaces/ws-1de68e95-0680-42bb-8e55-67e7fd5d0861"
   TESTING_FRAMEWORK_REPO: bryan-aguilar/aws-otel-test-framework
-  MAX_JOBS: 30
+  MAX_JOBS: 10
 
 
 permissions:
