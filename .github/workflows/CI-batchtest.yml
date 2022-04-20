@@ -116,6 +116,7 @@ jobs:
           ref: ${{ needs.create-test-ref.outputs.testRef }}
 
       - name: create test-case-batch file
+        shell: bash
         run: |
           jsonStr='${{ needs.get-testing-suites.outputs.test-case-batch-value }}'
           jsonStr=$(jq -r '.${{ matrix.BatchKey }}' <<< "${jsonStr}")
@@ -123,6 +124,7 @@ jobs:
           cat testing-framework/terraform/test-case-batch
 
       - name: run tests
+        shell: bash
         run: |
           cd testing-framework/terraform
           make execute-batch-test
