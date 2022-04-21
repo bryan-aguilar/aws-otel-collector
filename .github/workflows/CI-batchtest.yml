@@ -123,7 +123,6 @@ jobs:
           cat testing-framework/terraform/test-case-batch
 
       - name: run tests
-        shell: bash {0}
         run: |
           cd testing-framework/terraform
           make test-case-batch-test
