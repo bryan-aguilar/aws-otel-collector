@@ -119,8 +119,8 @@ jobs:
         shell: bash {0}
         run: |
           jsonStr='${{ needs.get-testing-suites.outputs.test-case-batch-value }}'
-          jsonStr="$(jq -r '.${{ matrix.BatchKey }} | join("\\n")' <<< "${jsonStr}")"
-          echo $jsonStr >> testing-framework/terraform/test-case-batch
+          jsonStr="$(jq -r '.${{ matrix.BatchKey }} | join("\n")' <<< "${jsonStr}")""
+          echo "$jsonStr" >> testing-framework/terraform/test-case-batch
           cat testing-framework/terraform/test-case-batch
 
       - name: run tests
