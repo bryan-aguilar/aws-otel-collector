@@ -116,7 +116,6 @@ jobs:
           ref: ${{ needs.create-test-ref.outputs.testRef }}
 
       - name: create test-case-batch file
-        shell: bash {0}
         run: |
           jsonStr='${{ needs.get-testing-suites.outputs.test-case-batch-value }}'
           jsonStr="$(jq -r '.${{ matrix.BatchKey }} | join("\n")' <<< "${jsonStr}")"
