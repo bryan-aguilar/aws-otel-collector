@@ -120,6 +120,9 @@ jobs:
         run: |
           jsonStr='${{ needs.get-testing-suites.outputs.test-case-batch-value }}'
           jsonStr=$(jq -r '.${{ matrix.BatchKey }} | join("\n")' <<< "${jsonStr}")
+          jsonStr="${jsonStr//'%'/'%25'}"
+          jsonStr="${jsonStr//$'\n'/'%0A'}"
+          jsonStr="${jsonStr//$'\r'/'%0D'}"
           echo $jsonStr >> testing-framework/terraform/test-case-batch
           cat testing-framework/terraform/test-case-batch
 
