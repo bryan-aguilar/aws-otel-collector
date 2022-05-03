@@ -24,7 +24,7 @@ jobs:
   set-release-candidate-true:
     runs-on: ubuntu-latest
     outputs:
-      release-candidate-ready: ${{ steps.setOutput.release-candidate-ready}}
+      release-candidate-ready: ${{ steps.setOutput.outputs.release-candidate-ready}}
     steps:
       - name: Validade license content
         id: setOutput
@@ -34,7 +34,7 @@ jobs:
   set-release-candidate-false:
     runs-on: ubuntu-latest
     outputs:
-      release-candidate-ready: ${{ steps.setOutput.release-candidate-ready}}
+      release-candidate-ready: ${{ steps.setOutput.outputs.release-candidate-ready}}
     steps:
       - name: Validade license content
         id: setOutput
