@@ -44,7 +44,7 @@ jobs:
   should-run:
     runs-on: ubuntu-latest
     needs: set-release-candidate-true
-    if: ${{ needs.set-release-candidate-true.outputs.release-canddidate-ready == 'true' }}
+    if: ${{ needs.set-release-candidate-true.outputs.release-candidate-ready == 'true' }}
     steps:
       - name: is true
         run: |
@@ -53,7 +53,7 @@ jobs:
   should-not-run:
     runs-on: ubuntu-latest
     needs: set-release-candidate-false
-    if: ${{ needs.set-release-candidate-false.outputs.release-canddidate-ready == 'true' }}
+    if: ${{ needs.set-release-candidate-false.outputs.release-candidate-ready == 'true' }}
     steps:
       - name: is true
         run: |
