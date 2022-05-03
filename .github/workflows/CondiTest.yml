@@ -30,6 +30,7 @@ jobs:
       - id: setOutput
         run: | 
           echo "::set-output name=release-candidate-ready::true"
+
   set-release-candidate-false:
     runs-on: ubuntu-latest
     outputs:
