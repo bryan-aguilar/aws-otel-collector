@@ -29,7 +29,7 @@ jobs:
         - name: Validade license content
         - id: setOutput
           run: | 
-              echo "::set-output name=release-candidate-ready::true"
+            echo "::set-output name=release-candidate-ready::true"
     set-release-candidate-false:
       runs-on: ubuntu-latest
       outputs:
@@ -38,7 +38,7 @@ jobs:
         - name: Validade license content
         - id: setOutput
           run: | 
-              echo "::set-output name=release-candidate-ready::false"
+            echo "::set-output name=release-candidate-ready::false"
 
     should-run:
       runs-on: ubuntu-latest
