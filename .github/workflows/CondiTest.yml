@@ -27,7 +27,7 @@ jobs:
       release-candidate-ready: ${{ steps.setOutput.release-candidate-ready}}
     steps:
       - name: Validade license content
-      - id: setOutput
+        id: setOutput
         run: | 
           echo "::set-output name=release-candidate-ready::true"
 
@@ -37,7 +37,7 @@ jobs:
       release-candidate-ready: ${{ steps.setOutput.release-candidate-ready}}
     steps:
       - name: Validade license content
-      - id: setOutput
+        id: setOutput
         run: | 
           echo "::set-output name=release-candidate-ready::false"
 
