@@ -21,42 +21,42 @@ env:
   LICENSE_TEXT: By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license.
 
 jobs:
-    set-release-candidate-true:
-      runs-on: ubuntu-latest
-      outputs:
-        release-candidate-ready: ${{ steps.setOutput.release-candidate-ready}}
-      steps:
-        - name: Validade license content
-        - id: setOutput
-          run: | 
-            echo "::set-output name=release-candidate-ready::true"
-    set-release-candidate-false:
-      runs-on: ubuntu-latest
-      outputs:
-        release-candidate-ready: ${{ steps.setOutput.release-candidate-ready}}
-      steps:
-        - name: Validade license content
-        - id: setOutput
-          run: | 
-            echo "::set-output name=release-candidate-ready::false"
+  set-release-candidate-true:
+    runs-on: ubuntu-latest
+    outputs:
+      release-candidate-ready: ${{ steps.setOutput.release-candidate-ready}}
+    steps:
+      - name: Validade license content
+      - id: setOutput
+        run: | 
+          echo "::set-output name=release-candidate-ready::true"
+  set-release-candidate-false:
+    runs-on: ubuntu-latest
+    outputs:
+      release-candidate-ready: ${{ steps.setOutput.release-candidate-ready}}
+    steps:
+      - name: Validade license content
+      - id: setOutput
+        run: | 
+          echo "::set-output name=release-candidate-ready::false"
 
-    should-run:
-      runs-on: ubuntu-latest
-      needs: set-release-candidate-true
-      if: ${{ needs.set-release-candidate-true.outputs.release-canddidate-ready == 'true' }}
-      steps:
-        - name: is true
-          run: |
-            echo "prepping release candidate"
-    
-    should-not-run:
-      runs-on: ubuntu-latest
-      needs: set-release-candidate-false
-      if: ${{ needs.set-release-candidate-false.outputs.release-canddidate-ready == 'true' }}
-      steps:
-        - name: is true
-          run: |
-            echo "prepping release candidate"
+  should-run:
+    runs-on: ubuntu-latest
+    needs: set-release-candidate-true
+    if: ${{ needs.set-release-candidate-true.outputs.release-canddidate-ready == 'true' }}
+    steps:
+      - name: is true
+        run: |
+          echo "prepping release candidate"
+  
+  should-not-run:
+    runs-on: ubuntu-latest
+    needs: set-release-candidate-false
+    if: ${{ needs.set-release-candidate-false.outputs.release-canddidate-ready == 'true' }}
+    steps:
+      - name: is true
+        run: |
+          echo "prepping release candidate"
 
 
 
