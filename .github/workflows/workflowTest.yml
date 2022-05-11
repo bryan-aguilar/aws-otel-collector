@@ -1,0 +1,23 @@
+name: C/I-testwf
+on:
+  workflow_dispatch:
+    inputs:
+      SERVICES:
+          description: list of services to run tests again. comma separated. EC2,ECS,EKS,EKS_ADOT_OPERATOR,EKS_ARM64,EKS_FARGATE
+          required: false
+      MAX_JOBS:
+          description: maximum number of allowed jobs
+          required: false
+          default: '90'
+  pull_request:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print workflow input variables
+        run: |
+          echo "Input variable services:           ${{ github.event.inputs.SERVICES }}"
+          echo "Input variable max jobs:           ${{ github.event.inputs.MAX_JOBS }}"
