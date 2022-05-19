@@ -43,7 +43,6 @@ rules:
       - coordination.k8s.io
     resources:
       - leases
-    resourceNames: ["otel-container-insight-clusterleader"]
     verbs:
       - '*'
 
