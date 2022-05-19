@@ -43,13 +43,15 @@ rules:
       - coordination.k8s.io
     resources:
       - leases
-    verbs: ["create","get", "update"]
+    verbs:
+      - ["create","get", "update"]
   - apiGroups:
       - coordination.k8s.io
     resources:
       - leases
     resourceNames: ["otel-container-insight-clusterleader"]
-    verbs: ["get","update", "create"]
+    verbs:
+      - ["get","update", "create"]
 
 ---
 kind: ClusterRoleBinding
