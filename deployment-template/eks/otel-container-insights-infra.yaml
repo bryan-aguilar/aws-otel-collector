@@ -33,18 +33,12 @@ rules:
     resources: ["nodes/proxy"]
     verbs: ["get"]
   - apiGroups: [""]
-    resources: ["nodes/stats", "configmaps", "events"]
+    resources: ["nodes/stats", "configmaps", "events", "leases"]
     verbs: ["create", "get"]
   - apiGroups: [""]
-    resources: ["configmaps"]
+    resources: ["configmaps", "leases"]
     resourceNames: ["otel-container-insight-clusterleader"]
     verbs: ["get","update"]
-  - apiGroups:
-      - coordination.k8s.io
-    resources:
-      - leases
-    verbs:
-      - '*'
 
 ---
 kind: ClusterRoleBinding
