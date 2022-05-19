@@ -50,7 +50,6 @@ rules:
       - leases
     resourceNames: ["otel-container-insight-clusterleader"]
     verbs: ["get","update", "create"]
-
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
