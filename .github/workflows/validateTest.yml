@@ -100,7 +100,7 @@ jobs:
       - name: create test-case-batch file
         run: |
           jsonStr='${{ needs.get-testing-suites.outputs.test-case-batch-value }}'
-          jsonStr="$(jq -r '. | join("\n")' <<< "${jsonStr}")"
+          jsonStr="$(jq -r '.[] | join("\n")' <<< "${jsonStr}")"
           echo "$jsonStr" >> testing-framework/terraform/test-case-batch
           cat testing-framework/terraform/test-case-batch
 
