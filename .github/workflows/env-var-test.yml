@@ -22,7 +22,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: set var
-          run: export SSM_ADDTL_ARGS=--make_default_version
+          run: echo "SSM_ADDTL_ARGS=--make_default_version" >> $GITHUB_ENV
         - name: use -var
-          run: echo $NOT_SET_VAR $SSM_ADDTL_ARGS
+          run: echo ${{ env.NOT_SET_ARG }} ${{ env.SSM_ADDTL_ARGS }}
 
