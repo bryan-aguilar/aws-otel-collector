@@ -19,5 +19,5 @@ jobs:
           role-to-assume: ${{ secrets.ENV_ROLE_ARN }}
           aws-region: us-west-2
 
-      - run: echo winner
+      - run: echo winner winner chicken dinner
         name: done
