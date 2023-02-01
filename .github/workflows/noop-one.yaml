@@ -13,7 +13,6 @@ permissions:
 jobs:
   test-aws:
     runs-on: ubuntu-latest
-    environment: pull-request-test
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
