@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   pull_request:
     
-
-
 permissions:
   id-token: write
   contents: read
@@ -20,5 +18,5 @@ jobs:
           role-to-assume: arn:aws:iam::616567865305:role/bryaag-collector
           aws-region: us-west-2
 
-      - run: echo winner
+      - run: echo "[REDACTED]"
         name: done
