@@ -11,11 +11,12 @@ permissions:
 jobs:
   test-aws:
     runs-on: ubuntu-latest
+    environment: pull-request-test
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: ${{ secrets.TEST_ROLE_ARN }}
+          role-to-assume: ${{ secrets.ENV_ROLE_ARN }}
           aws-region: us-west-2
 
       - run: echo winner
