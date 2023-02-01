@@ -18,7 +18,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: ${{ secrets.ENV_ROLE_ARN }}
+          role-to-assume: arn:aws:iam::616567865305:role/bryaag-collector
           aws-region: us-west-2
 
       - run: echo winner
