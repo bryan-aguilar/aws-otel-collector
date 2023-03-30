@@ -36,7 +36,7 @@ env:
   GITHB_RUN_ID: ${{ github.run_id }}
   # ignore batch testing for hackathon
   #DDB_TABLE_NAME: BatchTestCache
-  MAX_JOBS: 1
+  MAX_JOBS: 90
   BATCH_INCLUDED_SERVICES: EKS,EKS_ARM64
   GO_VERSION: ~1.20.2
   TF_VAR_aoc_version: "v0.26.2"
