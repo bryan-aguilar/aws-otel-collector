@@ -13,6 +13,7 @@
 
 name: C/I
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
