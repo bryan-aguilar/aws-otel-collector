@@ -37,16 +37,17 @@ env:
   # ignore batch testing for hackathon
   #DDB_TABLE_NAME: BatchTestCache
   MAX_JOBS: 90
-  BATCH_INCLUDED_SERVICES: EKS,EKS_ARM64
+  BATCH_INCLUDED_SERVICES: EKS
   GO_VERSION: ~1.20.2
   TF_VAR_aoc_version: "v0.26.2"
   TF_VAR_aoc_image_repo: "public.ecr.aws/aws-observability/aws-otel-collector"
   TF_VAR_cortex_instance_endpoint: "https://aps-workspaces.us-west-2.amazonaws.com/workspaces/ws-b50bd41b-b9e0-4211-9336-ff19ed9fd355"
 
-
-concurrency:
-  group: ci-batched${{ github.ref_name }}
-  cancel-in-progress: true
+# remove concurrency for now so that we can trigger multiple workflows at once to try and stress the cluster.
+# Right now a matrix job will only run 5 jobs at once. 
+#concurrency:
+#  group: ci-batched${{ github.ref_name }}
+#  cancel-in-progress: true
 
 permissions:
   id-token: write
