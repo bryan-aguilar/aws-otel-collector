@@ -97,6 +97,10 @@ jobs:
       test-case-batch-key: ${{ steps.set-batches.outputs.batch-keys }}
       test-case-batch-value: ${{ steps.set-batches.outputs.batch-values }}
     steps:
+      - name: checkout adot collector
+        uses: actions/checkout@v3
+        with:
+          path: collector
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -115,9 +119,10 @@ jobs:
       - name: Create test batch key values
         id: set-batches
         run: |
+          mv collector/.github/testcases.json testing-framework/tools/batchTestGenerator/testcases-adot.json
           cd testing-framework/tools/batchTestGenerator
           go build
-          ./batchTestGenerator github --testCaseFilePath=./testcases.json --maxBatch=${{ env.MAX_JOBS }} \
+          ./batchTestGenerator github --testCaseFilePath=./testcases-adot.json --maxBatch=${{ env.MAX_JOBS }} \
             --include=${{ env.BATCH_INCLUDED_SERVICES }}
       - name: List testing suites
         run: |
