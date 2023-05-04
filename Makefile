@@ -84,11 +84,11 @@ build: install-tools golint
 
 
 .PHONY: amd64-build
-amd64-build: install-tools golint
+amd64-build: install-tools golint amd64-build-healthcheck
 	GOOS=linux GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/amd64/aoc ./cmd/awscollector
 
 .PHONY: arm64-build
-arm64-build: install-tools golint
+arm64-build: install-tools golint arm64-build-healthcheck
 	GOOS=linux GOARCH=arm64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/arm64/aoc ./cmd/awscollector
 
 .PHONY: windows-build

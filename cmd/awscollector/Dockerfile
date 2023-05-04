@@ -21,7 +21,7 @@ ARG TARGETARCH
 
 # pass in the GOPROXY as a --build-arg (e.g. --build-arg GOPROXY=direct)
 ARG GOPROXY
-ENV GOPROXY=${GOPROXY}
+ENV GOPROXY=direct
 
 # download go modules ahead to speed up the building
 WORKDIR /workspace
@@ -37,6 +37,7 @@ RUN make ${TARGETARCH}-build
 
 # move
 RUN mv /workspace/build/linux/$TARGETARCH/aoc /workspace/awscollector
+RUN mv /workspace/build/linux/$TARGETARCH/healthcheck /workspace/healthcheck
 
 ################################
 #	Copy Stage             #

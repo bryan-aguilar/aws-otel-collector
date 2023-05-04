@@ -57,6 +57,7 @@ import (
 	"go.opentelemetry.io/collector/extension"
 	"go.opentelemetry.io/collector/extension/ballastextension"
 	"go.opentelemetry.io/collector/extension/zpagesextension"
+	"go.opentelemetry.io/collector/featuregate"
 	"go.opentelemetry.io/collector/otelcol"
 	"go.opentelemetry.io/collector/processor"
 	"go.opentelemetry.io/collector/processor/batchprocessor"
@@ -65,6 +66,8 @@ import (
 	"go.opentelemetry.io/collector/receiver/otlpreceiver"
 	"go.uber.org/multierr"
 )
+
+var otlpFeatGate = featuregate.GlobalRegistry().MustRegister("comp.recv.otlp", featuregate.StageBeta)
 
 // Components register OTel components for ADOT-collector distribution
 func Components() (otelcol.Factories, error) {
@@ -94,7 +97,10 @@ func Components() (otelcol.Factories, error) {
 		kafkareceiver.NewFactory(),
 		jaegerreceiver.NewFactory(),
 		zipkinreceiver.NewFactory(),
-		otlpreceiver.NewFactory(),
+	}
+
+	if otlpFeatGate.IsEnabled() {
+		receiverList = append(receiverList, otlpreceiver.NewFactory())
 	}
 
 	receivers, err := receiver.MakeFactoryMap(receiverList...)
