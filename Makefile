@@ -82,17 +82,38 @@ build: install-tools golint
 	GOOS=linux GOARCH=arm64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/arm64/healthcheck ./cmd/healthcheck
 	GOOS=windows GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/windows/amd64/healthcheck ./cmd/healthcheck
 
+.PHONY: build-parallel
+build-parallel: amd64-build arm64-build darwin-amd64-build darwin-arm64-build windows-build amd64-build-healthcheck arm64-build-healthcheck windows-build-healthcheck darwin-build-healthcheck
+
+.PHONY: build-sync
+build-sync:
+	GOOS=darwin GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/darwin/amd64/aoc ./cmd/awscollector
+	GOOS=linux GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/amd64/aoc ./cmd/awscollector
+	GOOS=linux GOARCH=arm64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/arm64/aoc ./cmd/awscollector
+	GOOS=windows GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/windows/amd64/aoc ./cmd/awscollector
+	GOOS=darwin GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/darwin/amd64/healthcheck ./cmd/healthcheck
+	GOOS=linux GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/amd64/healthcheck ./cmd/healthcheck
+	GOOS=linux GOARCH=arm64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/arm64/healthcheck ./cmd/healthcheck
+	GOOS=windows GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/windows/amd64/healthcheck ./cmd/healthcheck
+
+.PHONY: darwin-amd64-build
+darwin-amd64-build: 
+	GOOS=darwin GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/darwin/amd64/aoc ./cmd/awscollector
+
+.PHONY: darwin-arm64-build
+darwin-arm64-build: 
+	GOOS=darwin GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/darwin/amd64/aoc ./cmd/awscollector
 
 .PHONY: amd64-build
-amd64-build: install-tools golint
+amd64-build: 
 	GOOS=linux GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/amd64/aoc ./cmd/awscollector
 
 .PHONY: arm64-build
-arm64-build: install-tools golint
+arm64-build: 
 	GOOS=linux GOARCH=arm64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/arm64/aoc ./cmd/awscollector
 
 .PHONY: windows-build
-windows-build: install-tools golint
+windows-build: 
 	GOOS=windows GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/windows/amd64/aoc ./cmd/awscollector
 
 # For building container image during development, no lint nor other platforms
@@ -121,7 +142,7 @@ docker-build: amd64-build amd64-build-healthcheck
 	docker buildx build --platform linux/amd64 --build-arg BUILDMODE=copy --load -t $(DOCKER_NAMESPACE)/$(COMPONENT):$(VERSION) -f ./cmd/$(COMPONENT)/Dockerfile .
 
 .PHONY: amd64-build-healthcheck
-amd64-build-healthcheck: install-tools golint
+amd64-build-healthcheck: 
 	GOOS=linux GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/amd64/healthcheck ./cmd/healthcheck
 
 .PHONY: docker-build-arm
@@ -129,12 +150,16 @@ docker-build-arm: arm64-build arm64-build-healthcheck
 	docker buildx build --platform linux/arm64 --build-arg BUILDMODE=copy --load -t $(DOCKER_NAMESPACE)/$(COMPONENT):$(VERSION) -f ./cmd/$(COMPONENT)/Dockerfile .
 
 .PHONY: arm64-build-healthcheck
-arm64-build-healthcheck: install-tools golint
+arm64-build-healthcheck: 
 	GOOS=linux GOARCH=arm64 $(GOBUILD) $(LDFLAGS) -o ./build/linux/arm64/healthcheck ./cmd/healthcheck
 
 .PHONY: windows-build-healthcheck
-windows-build-healthcheck: install-tools golint
+windows-build-healthcheck: 
 	GOOS=windows GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/windows/amd64/healthcheck ./cmd/healthcheck
+
+.PHONY: darwin-build-healthcheck
+darwin-build-healthcheck: 
+	GOOS=darwin GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./build/darwin/amd64/healthcheck ./cmd/healthcheck
 
 .PHONY: docker-push
 docker-push:
